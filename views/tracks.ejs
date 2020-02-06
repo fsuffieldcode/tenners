@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+
+    <div class="card-container">
+        <h1>Tracks</h1>
+        <ol>
+            <% tracks.forEach(function (track) { %>
+                <li><%= track.name %></li>
+            <% }) %>
+        </ol>
+    </div>
+
+
+    <%- include('partials/footer') %>

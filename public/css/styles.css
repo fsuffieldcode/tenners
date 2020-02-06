@@ -1,6 +1,10 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 
 body {
-  background-color: #E8ECEF;
+  background-color: #dadada;
 }
 
 .centered {
@@ -8,9 +12,166 @@ body {
     text-align: center;
 }
 
-.secret-text {
-  text-align: center;
-  font-size: 2rem;
-  color: #fff;
-  background-color: #000;
+body {
+  margin: 0;
+}
+
+/* HOME PAGE STYLES */
+
+.main-container {
+  height: 80vh;
+  width: 100vw;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.header-text {
+  margin: 1rem 1rem 1rem 0;
+}
+
+.header-text, .fa-headphones {
+  font-size: 5vw;
+}
+
+
+.search-form-container {
+  width: 70vw;
+  max-width: 700px;
+  height: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: [hero] 1.3fr [form] 1fr;
+  grid-template-rows: [hero] 1fr [form] 3fr;
+  grid-template-areas: 
+  'hero search-form'
+  'hero search-form'
+}
+
+.hero {
+  background-image: url('https://static01.nyt.com/images/2019/06/08/arts/08tylerkevin-review1/merlin_155744586_58e436e2-d1d2-44e0-b516-573ab5031e47-superJumbo.jpg');
+  background-position: center;
+  background-size: cover;
+  grid-area: hero;
+
+}
+
+.search-form {
+  grid-area: search-form;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form > h2 {
+  color: lightgray
+}
+
+.search-form > input, button {
+  border: 0;
+  height: 10%;
+  border-radius: 2px;
+}
+
+.search-form > input {
+  background-color: #747474;
+  font-size: 1rem;
+  width: 75%;
+}
+
+.search-form > button {
+  background-color: #e5ff51;
+  margin-top: 1rem;
+  font-size: 1rem;
+  width: 60%;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+.card {
+  width: 200px;
+  height: 300px;
+  display: grid;
+}
+
+.card img {
+  width: 100%;
+  max-height: 200px;
+}
+
+.landing-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+.landing-hero {
+    background-image: url('https://static01.nyt.com/images/2019/06/08/arts/08tylerkevin-review1/merlin_155744586_58e436e2-d1d2-44e0-b516-573ab5031e47-superJumbo.jpg');
+    background-position: center;
+    background-size: cover;
+    grid-area: hero;
+}
+
+.landing-button {
+  font-size: 5vw;
+  color: white;
+  margin-bottom: 2vh;
+}
+
+.landing-button:link, .landing-button:visited {
+  color: white;
+}
+
+.landing-button:hover, .landing-button:active {
+  color: rgb(238, 255, 0);
+}
+
+.btn-green {
+  background-color: rgb(238, 255, 0);
+}
+
+.register-login-container {
+  width: 70vw;
+  max-width: 700px;
+  height: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: [hero] 1.3fr [register-form] 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+  'hero register-form'
+}
+
+.register-login-form {
+  grid-area: register-form;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.register-login-form label {
+  color: white;
+  margin-bottom: 1vh;
+}
+
+.register-login-form input {
+  margin-bottom: 2vh;
 }

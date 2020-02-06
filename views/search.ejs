@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+    <div class="main-container">
+        <div class="header">
+            <h1 class="header-text">Spotlify
+            </h1>
+            <i class="fas fa-headphones"></i>
+        </div>
+
+        <div class="search-form-container">
+            <div class="hero">
+            </div>
+            <form class="search-form" action="/artist-search" method="POST">
+                <h2>
+                    Search by Artist
+                </h2>
+                <input type="text" name="artist" />
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

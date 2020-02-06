@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+    <div class="card-container">
+        <% searchResults.artists.items.forEach(function (artist) { %>
+        <div class="artist-card card">
+            <a href="/albums/<%= artist.id %>">
+                <% if (artist.images[0]) { %>
+                <img src="<%= artist.images[0].url %>">
+                <% } else { %>
+                <img src="../public/images/unknown.jpg">
+                <% } %>
+                <% if (artist.name) { %>
+                <%= artist.name %>
+                <% } %>
+            </a>
+        </div>
+        <% }) %>
+    </div>
+
+
+</body>
+
+</html>
