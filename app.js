@@ -6,8 +6,13 @@ const ejs = require("ejs")
 const mongoose = require("mongoose")
 const session = require("express-session")
 const passport = require("passport")
+const SpotifyWebApi = require('spotify-web-api-node')
+
 const passportLocalMongoose = require("passport-local-mongoose")
+
 const port = process.env.PORT || 3000;
+
+const connectionString = 'mongodb+srv://fabian:' + process.env.MONGO_PW + '@cluster0-26kcr.mongodb.net/test?retryWrites=true&w=majority'
 
 const app = express()
 
@@ -27,9 +32,16 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+// Local Mongo
 
-mongoose.connect("mongodb://localhost:27017/tennersDB", { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect("mongodb://localhost:27017/tennersDB", { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.set('useCreateIndex', true);
+
+// Cloud Mongo
+
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true);
+
 
 const userSchema = new mongoose.Schema({
     email: String,
@@ -46,13 +58,12 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-
 // SPOTIFY API INITIALISATION HERE
 
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    redirectUri: 'https://spotlify.herokuapp.com' || 'https://localhost:3000'
+    redirectUri: 'https://tenners.herokuapp.com' || 'https://localhost:3000'
 });
 
 // Retrieve an access token
