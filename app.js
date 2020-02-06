@@ -12,7 +12,7 @@ const passportLocalMongoose = require("passport-local-mongoose")
 
 const port = process.env.PORT || 3000;
 
-const connectionString = 'mongodb+srv://fabian:' + process.env.MONGO_PW + '@cluster0-26kcr.mongodb.net/test?retryWrites=true&w=majority'
+const connectionString = 'mongodb+srv://fabian:' + process.env.MONGO_PW + '@cluster0-26kcr.mongodb.net/tennersDB?retryWrites=true&w=majority'
 
 const app = express()
 
