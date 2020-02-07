@@ -46,7 +46,12 @@ mongoose.set('useCreateIndex', true);
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
-    faveAlbums: [String]
+    faveAlbums: [{
+        id: String,
+        artist: String,
+        album: String,
+        art: String
+    }]
 })
 
 userSchema.plugin(passportLocalMongoose)
@@ -72,7 +77,7 @@ spotifyApi.clientCredentialsGrant().then(
     function (data) {
         console.log('The access token expires in ' + data.body['expires_in']);
         console.log('The access token is ' + data.body['access_token']);
-        
+
         // Save the access token so that it's used in future calls
         spotifyApi.setAccessToken(data.body['access_token']);
     },
@@ -111,11 +116,12 @@ app.get("/register", function (req, res) {
 
 app.get("/home", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("home")
+        res.render('home', {faveAlbums: req.user.faveAlbums})
     } else {
         res.redirect("/login")
     }
 })
+
 
 app.get("/search", function (req, res) {
     res.render('search')
@@ -172,7 +178,7 @@ app.get('/albums/:artistId', (req, res, next) => {
 
     console.log('Artist ID passed: ' + req.params.artistId)
 
-    
+
 
     spotifyApi
         .getArtistAlbums(req.params.artistId)
@@ -191,9 +197,25 @@ app.get('/albums/:artistId', (req, res, next) => {
 
 
 app.get('/add/:albumId', (req, res) => {
-    req.user.faveAlbums.push(req.params.albumId)
-    req.user.save()
-    res.redirect('/home')
+    // req.user.faveAlbums.push(req.params.albumId)
+    // req.user.save()
+    // res.redirect('/home')
+
+    spotifyApi.getAlbum(req.params.albumId)
+        .then(function (data) {
+            console.log('Albums information', data.body);
+            req.user.faveAlbums.push({
+                id: data.body.id,
+                artist: data.body.artists[0].name,
+                album: data.body.name,
+                art: data.body.images[0].url
+            })
+            req.user.save()
+            res.redirect('/home')
+
+        }, function (err) {
+            console.error(err);
+        });
 })
 
 

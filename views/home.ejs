@@ -8,12 +8,27 @@
     <a href="/search" role="button">Add Music</a>
     <a href="/logout" role="button">Log Out</a>
   </nav>
+  <br /><br />
 
   <%- include('partials/header') %>
 
 </head>
 
 <body>
+
+  <div class="card-container">
+
+    <% faveAlbums.forEach(function (album){ %>
+      <div class="card">
+      <img src="<%=album.art%>">
+      <h3><%=album.album %></h3>
+      <p><%=album.artist %></p>
+    </div>
+    <% }) %>
+
+  </div>
+
+
 
 
   <%- include('partials/footer') %>
