@@ -16,8 +16,6 @@ body {
   margin: 0;
 }
 
-/* HOME PAGE STYLES */
-
 .main-container {
   height: 80vh;
   width: 100vw;
@@ -34,8 +32,7 @@ body {
   font-size: 5vw;
 }
 
-
-.search-form-container {
+.hero-container {
   width: 70vw;
   max-width: 700px;
   height: 50vh;
@@ -110,12 +107,6 @@ body {
 .card img {
   width: 100%;
   max-height: 200px;
-}
-
-.landing-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto;
 }
 
 .landing-hero {

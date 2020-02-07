@@ -45,7 +45,8 @@ mongoose.set('useCreateIndex', true);
 
 const userSchema = new mongoose.Schema({
     email: String,
-    password: String
+    password: String,
+    faveAlbums: [String]
 })
 
 userSchema.plugin(passportLocalMongoose)
@@ -71,7 +72,7 @@ spotifyApi.clientCredentialsGrant().then(
     function (data) {
         console.log('The access token expires in ' + data.body['expires_in']);
         console.log('The access token is ' + data.body['access_token']);
-
+        
         // Save the access token so that it's used in future calls
         spotifyApi.setAccessToken(data.body['access_token']);
     },
@@ -79,7 +80,6 @@ spotifyApi.clientCredentialsGrant().then(
         console.log('Something went wrong when retrieving an access token', err);
     }
 );
-
 
 
 //  GET ROUTES
@@ -117,7 +117,7 @@ app.get("/home", function (req, res) {
     }
 })
 
-app.get("/add", function (req, res) {
+app.get("/search", function (req, res) {
     res.render('search')
 })
 
@@ -132,7 +132,6 @@ app.post("/register", function (req, res) {
 
     User.register({ username: req.body.username }, req.body.password, function (err, user) {
         if (err) {
-            console.log(err)
             res.redirect("/register")
         } else {
             passport.authenticate("local")(req, res, function () {
@@ -140,7 +139,6 @@ app.post("/register", function (req, res) {
             })
         }
     })
-
 })
 
 app.post("/login", function (req, res) {
@@ -174,6 +172,8 @@ app.get('/albums/:artistId', (req, res, next) => {
 
     console.log('Artist ID passed: ' + req.params.artistId)
 
+    
+
     spotifyApi
         .getArtistAlbums(req.params.artistId)
         .then(function (data) {
@@ -189,19 +189,13 @@ app.get('/albums/:artistId', (req, res, next) => {
 
 });
 
-app.get('/tracks/:albumId', (req, res, next) => {
 
-    console.log('Album ID passed: ' + req.params.albumId)
-
-    spotifyApi.getAlbumTracks(req.params.albumId, { offset: 1 })
-        .then(function (data) {
-            res.render('tracks', {
-                tracks: data.body.items
-            })
-        }, function (err) {
-            console.log('Something went wrong!', err);
-        });
+app.get('/add/:albumId', (req, res) => {
+    req.user.faveAlbums.push(req.params.albumId)
+    req.user.save()
+    res.redirect('/home')
 })
+
 
 
 app.listen(port, () => console.log('Tenners running on ' + port + ' 🎧 🥁 🎸 🔊'));

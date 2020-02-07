@@ -3,14 +3,17 @@
 </head>
 
 <body>
+  <nav>
+    <h1>Home</h1>
+    <a href="/search" role="button">Add Music</a>
+    <a href="/logout" role="button">Log Out</a>
+  </nav>
 
-<div class="jumbotron text-center">
-  <div class="container">
-    <h1 class="display-3">Home</h1>
+  <%- include('partials/header') %>
 
-    <a class="btn btn-dark btn-lg" href="/add" role="button">Add Music</a>
-    <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
-  </div>
-</div>
+</head>
 
-<%- include('partials/footer') %>
+<body>
+
+
+  <%- include('partials/footer') %>

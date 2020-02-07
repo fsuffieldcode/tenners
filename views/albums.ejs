@@ -9,7 +9,7 @@
         <ul>
             <% albums.forEach(function (album) {
             if (album.album_type === 'album') { %>
-            <li><a href="/tracks/<%= album.id %>"><%= album.name %></a></li>
+            <li><a href="/add/<%= album.id %>"><%= album.name %></a></li>
             <% } %>
             <% }) %>
         </ul>
