@@ -86,7 +86,11 @@ spotifyApi.clientCredentialsGrant().then(
 
 
 app.get("/", function (req, res) {
-    res.render("landing")
+    if (req.isAuthenticated()) {
+        res.render("home")
+    } else {
+        res.render("landing")
+    }
 })
 
 app.get("/login", function (req, res) {
