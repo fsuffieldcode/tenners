@@ -94,11 +94,19 @@ app.get("/", function (req, res) {
 })
 
 app.get("/login", function (req, res) {
-    res.render("login")
+    if (req.isAuthenticated()) {
+        res.redirect("/home")
+    } else {
+        res.render("login")
+    }
 })
 
 app.get("/register", function (req, res) {
-    res.render("register")
+    if (req.isAuthenticated()) {
+        res.redirect("/home")
+    } else {
+        res.render("register")
+    }
 })
 
 app.get("/home", function (req, res) {
@@ -153,14 +161,10 @@ app.post("/login", function (req, res) {
     })
 })
 
-
-
 app.post("/artist-search", function (req, res) {
     spotifyApi
         .searchArtists(req.body.artist)
         .then(data => {
-            console.log('The received data from the API: ', data.body);
-            // ----> 'HERE WHAT WE WANT TO DO AFTER RECEIVING THE DATA FROM THE API
             res.render('artist-search-results', { searchResults: data.body })
         })
         .catch(err => console.log('The error while searching artists occurred: ', err));
@@ -173,7 +177,6 @@ app.get('/albums/:artistId', (req, res, next) => {
     spotifyApi
         .getArtistAlbums(req.params.artistId)
         .then(function (data) {
-            // res.send(data.body.items)
             res.render('albums', {
                 artist: data.body.items[0].artists[0].name,
                 albums: data.body.items
@@ -190,17 +193,15 @@ app.get('/tracks/:albumId', (req, res, next) => {
 
     console.log('Album ID passed: ' + req.params.albumId)
 
-    spotifyApi.getAlbumTracks(req.params.albumId, { offset : 1 })
-  .then(function(data) {
-    res.render('tracks', {
-        tracks: data.body.items
-    })
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
+    spotifyApi.getAlbumTracks(req.params.albumId, { offset: 1 })
+        .then(function (data) {
+            res.render('tracks', {
+                tracks: data.body.items
+            })
+        }, function (err) {
+            console.log('Something went wrong!', err);
+        });
 })
 
 
-
-
-app.listen(port, () => console.log('My Spotify project running on port ' + port + ' 🎧 🥁 🎸 🔊'));
+app.listen(port, () => console.log('Tenners running on ' + port + ' 🎧 🥁 🎸 🔊'));
