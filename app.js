@@ -122,7 +122,6 @@ app.get("/home", function (req, res) {
     }
 })
 
-
 app.get("/search", function (req, res) {
     res.render('search')
 })

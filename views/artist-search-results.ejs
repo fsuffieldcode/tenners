@@ -4,9 +4,20 @@
 
 <body>
 
-    <div class="card-container">
+    <nav>
+        <ul class="nav-links">
+          <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
+          <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
+        </ul>
+      </nav>
+    
+      <header class="home-header">
+        <h1>Artist Search Results</h1>
+      </header>
+
+    <div class="home-card-container">
         <% searchResults.artists.items.forEach(function (artist) { %>
-        <div class="artist-card card">
+        <div class="home-card artist-card">
             <a href="/albums/<%= artist.id %>">
                 <% if (artist.images[0]) { %>
                 <img src="<%= artist.images[0].url %>">

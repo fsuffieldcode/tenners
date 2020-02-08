@@ -4,25 +4,31 @@
 
 <body>
   <nav>
-    <h1>Home</h1>
-    <a href="/search" role="button">Add Music</a>
-    <a href="/logout" role="button">Log Out</a>
+    <ul class="nav-links">
+      <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
+      <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
+    </ul>
   </nav>
-  <br /><br />
 
-  <%- include('partials/header') %>
+  <header class="home-header">
+    <h1>Your List</h1>
+    <div class="green-button">
+      <a href="/search" role="button">Add Music</a>
+    </div>
+  </header>
 
-</head>
 
-<body>
-
-  <div class="card-container">
+  <div class="home-card-container">
 
     <% faveAlbums.forEach(function (album){ %>
-      <div class="card">
+    <div class="home-card">
       <img src="<%=album.art%>">
-      <h3><%=album.album %></h3>
-      <p><%=album.artist %></p>
+      <h3><%=album.album%></h3>
+      <p><%=album.artist%></p>
+      <div class="card-album-details">
+        <a href="" role="button" class="green-button-sm">Details</a><a href="" role="button"
+          class="red-button-sm">Remove</a>
+      </div>
     </div>
     <% }) %>
 
