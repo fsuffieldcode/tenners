@@ -116,7 +116,7 @@ app.get("/register", function (req, res) {
 
 app.get("/home", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render('home', {faveAlbums: req.user.faveAlbums})
+        res.render('home', { faveAlbums: req.user.faveAlbums })
     } else {
         res.redirect("/login")
     }
@@ -130,6 +130,55 @@ app.get("/logout", function (req, res) {
     req.logout();
     res.redirect('/');
 })
+
+app.get('/albums/:artistId', (req, res, next) => {
+
+    console.log('Artist ID passed: ' + req.params.artistId)
+
+
+
+    spotifyApi
+        .getArtistAlbums(req.params.artistId)
+        .then(function (data) {
+            res.render('albums', {
+                artist: data.body.items[0].artists[0].name,
+                albums: data.body.items
+            })
+        },
+            function (err) {
+                console.error(err);
+            }
+        );
+
+});
+
+
+app.get('/add/:albumId', (req, res) => {
+
+    spotifyApi.getAlbum(req.params.albumId)
+        .then(function (data) {
+            console.log('Albums information', data.body);
+            req.user.faveAlbums.push({
+                id: data.body.id,
+                artist: data.body.artists[0].name,
+                album: data.body.name,
+                art: data.body.images[0].url
+            })
+            req.user.save()
+            res.redirect('/home')
+
+        }, function (err) {
+            console.error(err);
+        });
+})
+
+app.get('/remove/:albumId', (req, res) => {
+    req.user.faveAlbums.pull(req.params.albumId)
+    req.user.save()
+    res.redirect('/home')
+})
+
+
 
 // POST ROUTES
 
@@ -173,49 +222,7 @@ app.post("/artist-search", function (req, res) {
         .catch(err => console.log('The error while searching artists occurred: ', err));
 })
 
-app.get('/albums/:artistId', (req, res, next) => {
 
-    console.log('Artist ID passed: ' + req.params.artistId)
-
-
-
-    spotifyApi
-        .getArtistAlbums(req.params.artistId)
-        .then(function (data) {
-            res.render('albums', {
-                artist: data.body.items[0].artists[0].name,
-                albums: data.body.items
-            })
-        },
-            function (err) {
-                console.error(err);
-            }
-        );
-
-});
-
-
-app.get('/add/:albumId', (req, res) => {
-    // req.user.faveAlbums.push(req.params.albumId)
-    // req.user.save()
-    // res.redirect('/home')
-
-    spotifyApi.getAlbum(req.params.albumId)
-        .then(function (data) {
-            console.log('Albums information', data.body);
-            req.user.faveAlbums.push({
-                id: data.body.id,
-                artist: data.body.artists[0].name,
-                album: data.body.name,
-                art: data.body.images[0].url
-            })
-            req.user.save()
-            res.redirect('/home')
-
-        }, function (err) {
-            console.error(err);
-        });
-})
 
 
 
