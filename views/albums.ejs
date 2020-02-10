@@ -1,21 +1,34 @@
 <%- include('partials/header') %>
-
 </head>
 
 <body>
 
-    <div class="card-container">
-        <h1><%=artist%> Albums</h1>
-        <ul>
-            <% albums.forEach(function (album) {
-            if (album.album_type === 'album') { %>
-            <li><a href="/add/<%= album.id %>"><%= album.name %></a></li>
-            <% } %>
-            <% }) %>
+    <nav>
+        <ul class="nav-links">
+          <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
+          <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
         </ul>
+      </nav>
+
+      <header class="home-header">
+        <h1><%=albums[0].artists[0].name%> Albums</h1>
+      </header>
+
+
+    <div class="album-card-container">
+        <% albums.forEach(function (album) {
+            if (album.album_type === 'album') { %>
+        <div class="album-card">
+            <% if (album.images[0]) { %>
+            <img src="<%= album.images[0].url %>">
+            <% } else { %>
+            <img src="../public/images/unknown.jpg">
+            <% } %>
+            <%= album.name %>
+            <a href="/add/<%= album.id %>"> Add to My List</a>
+            <% } %>
+        </div>
+        <% }) %>
     </div>
 
-
-</body>
-
-</html>
+    <%- include('partials/footer') %>

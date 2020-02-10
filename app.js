@@ -92,7 +92,7 @@ spotifyApi.clientCredentialsGrant().then(
 
 app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("home")
+        res.redirect("/home")
     } else {
         res.render("landing")
     }
@@ -133,13 +133,10 @@ app.get("/logout", function (req, res) {
 
 app.get('/albums/:artistId', (req, res, next) => {
 
-    console.log('Artist ID passed: ' + req.params.artistId)
-
-
-
     spotifyApi
         .getArtistAlbums(req.params.artistId)
         .then(function (data) {
+            // res.send(data.body.items)
             res.render('albums', {
                 artist: data.body.items[0].artists[0].name,
                 albums: data.body.items
@@ -157,7 +154,6 @@ app.get('/add/:albumId', (req, res) => {
 
     spotifyApi.getAlbum(req.params.albumId)
         .then(function (data) {
-            console.log('Albums information', data.body);
             req.user.faveAlbums.push({
                 id: data.body.id,
                 artist: data.body.artists[0].name,
