@@ -18,7 +18,7 @@
   <div class="artist-card-container">
     <% searchResults.artists.items.forEach(function (artist) { %>
     <div class="artist-card">
-      <a href="/albums/<%= artist.id %>">
+      <a href="/<%=listId%>/albums/<%= artist.id %>">
         <% if (artist.images[0]) { %>
         <img src="<%= artist.images[0].url %>">
         <% } else { %>

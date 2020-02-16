@@ -11,25 +11,23 @@
   </nav>
 
   <header class="home-header">
-    <h1>Your List</h1>
-    <div class="green-button">
-      <a href="/search" role="button">Add Music</a>
-    </div>
+    <h1>Your Lists</h1>
   </header>
 
+<ul>
+<% lists.forEach(function (list) { %>
+  <li><%=list.name%><a href="/<%=list._id%>/add"> Add to List</a></li>
+<% }) %>
+</ul>
 
-  <div class="home-card-container">
-    <% faveAlbums.forEach(function (album){ %>
-    <div class="home-card">
-      <img src="<%=album.art%>">
-      <h3><%=album.album%></h3>
-      <p><%=album.artist%></p>
-      <div class="card-album-details">
-        <a href="" role="button" class="green-button-sm">Details</a><a href="/remove/<%=album._id%>" role="button"
-          class="red-button-sm">Remove</a>
-      </div>
-    </div>
-    <% }) %>
+
+    <form method="POST" action="/newlist">
+      <label for="listName">New List: </label>
+      <input type="text" id="listName" name="listName">
+      <button type="submit">Add</button>
+    </form>
+  </header>
+
 
 
 

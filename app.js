@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
+
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
@@ -42,11 +43,9 @@ app.use(passport.session())
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true);
 
-
-const userSchema = new mongoose.Schema({
-    email: String,
-    password: String,
-    faveAlbums: [{
+const listSchema = new mongoose.Schema({
+    name: String,
+    albums: [{
         id: String,
         artist: String,
         album: String,
@@ -54,9 +53,17 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+const userSchema = new mongoose.Schema({
+    email: String,
+    password: String,
+    lists: [listSchema]
+})
+
 userSchema.plugin(passportLocalMongoose)
 
 const User = mongoose.model("User", userSchema)
+
+const List = mongoose.model("List", listSchema)
 
 passport.use(User.createStrategy());
 
@@ -116,14 +123,15 @@ app.get("/register", function (req, res) {
 
 app.get("/home", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render('home', { faveAlbums: req.user.faveAlbums })
+        res.render('home', { userId: req.user._id, lists: req.user.lists })
+        console.log(req.user.lists)
     } else {
         res.redirect("/login")
     }
 })
 
-app.get("/search", function (req, res) {
-    res.render('search')
+app.get("/:listId/add/", function (req, res) {
+    res.render('search', {listId: req.params.listId})
 })
 
 app.get("/logout", function (req, res) {
@@ -131,13 +139,14 @@ app.get("/logout", function (req, res) {
     res.redirect('/');
 })
 
-app.get('/albums/:artistId', (req, res, next) => {
+app.get('/:listId/albums/:artistId', (req, res, next) => {
 
     spotifyApi
         .getArtistAlbums(req.params.artistId)
         .then(function (data) {
             // res.send(data.body.items)
             res.render('albums', {
+                listId: req.params.listId,
                 artist: data.body.items[0].artists[0].name,
                 albums: data.body.items
             })
@@ -150,23 +159,24 @@ app.get('/albums/:artistId', (req, res, next) => {
 });
 
 
-app.get('/add/:albumId', (req, res) => {
-
+app.get('/:listId/add/:albumId', (req, res) => {
+    
     spotifyApi.getAlbum(req.params.albumId)
         .then(function (data) {
-            req.user.faveAlbums.push({
-                id: data.body.id,
+            const currentList = req.params.listId;
+                name: data.body.id,
                 artist: data.body.artists[0].name,
                 album: data.body.name,
                 art: data.body.images[0].url
-            })
-            req.user.save()
-            res.redirect('/home')
+            list.currentList.albums.push(newAlbum)
+        })
 
-        }, function (err) {
-            console.error(err);
-        });
-})
+    // req.user.save()
+    res.redirect('/home')
+
+}, function (err) {
+    console.error(err);
+});
 
 app.get('/remove/:albumId', (req, res) => {
     req.user.faveAlbums.pull(req.params.albumId)
@@ -177,6 +187,15 @@ app.get('/remove/:albumId', (req, res) => {
 
 
 // POST ROUTES
+
+app.post("/newlist", function(req, res) {
+    const list = new List({
+        name: req.body.listName
+    })
+    req.user.lists.push(list)
+    req.user.save()
+    res.redirect('/home')
+})
 
 app.post("/register", function (req, res) {
 
@@ -209,11 +228,15 @@ app.post("/login", function (req, res) {
     })
 })
 
-app.post("/artist-search", function (req, res) {
+app.post("/:listId/artist-search", function (req, res) {
+    console.log(req.body.userId)
     spotifyApi
         .searchArtists(req.body.artist)
         .then(data => {
-            res.render('artist-search-results', { searchResults: data.body })
+            res.render('artist-search-results', {
+                listId: req.params.listId,
+                searchResults: data.body
+            })
         })
         .catch(err => console.log('The error while searching artists occurred: ', err));
 })

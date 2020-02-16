@@ -25,7 +25,7 @@
             <img src="../public/images/unknown.jpg">
             <% } %>
             <%= album.name %>
-            <a href="/add/<%= album.id %>"> Add to My List</a>
+            <a href="/<%=listId%>/add/<%=album.id%>"> Add to My List</a>
             <% } %>
         </div>
         <% }) %>
