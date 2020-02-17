@@ -43,27 +43,23 @@ app.use(passport.session())
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.set('useCreateIndex', true);
 
-const listSchema = new mongoose.Schema({
-    name: String,
-    albums: [{
-        id: String,
-        artist: String,
-        album: String,
-        art: String
-    }]
-})
-
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
-    lists: [listSchema]
+    lists: [{
+        name: String,
+        albums: [{
+            id: String,
+            artist: String,
+            album: String,
+            art: String
+        }]
+    }]
 })
 
 userSchema.plugin(passportLocalMongoose)
 
 const User = mongoose.model("User", userSchema)
-
-const List = mongoose.model("List", listSchema)
 
 passport.use(User.createStrategy());
 
@@ -163,16 +159,17 @@ app.get('/:listId/add/:albumId', (req, res) => {
     
     spotifyApi.getAlbum(req.params.albumId)
         .then(function (data) {
-            const currentList = req.params.listId;
-                name: data.body.id,
+            const currentList = req.user.lists.id(req.params.listId);
+            currentList.albums.push({
+                id: data.body.id,
                 artist: data.body.artists[0].name,
                 album: data.body.name,
                 art: data.body.images[0].url
-            list.currentList.albums.push(newAlbum)
-        })
+            });
+            req.user.save();
+        });
 
-    // req.user.save()
-    res.redirect('/home')
+    res.redirect('/home');
 
 }, function (err) {
     console.error(err);
@@ -189,9 +186,9 @@ app.get('/remove/:albumId', (req, res) => {
 // POST ROUTES
 
 app.post("/newlist", function(req, res) {
-    const list = new List({
+    const list = {
         name: req.body.listName
-    })
+    }
     req.user.lists.push(list)
     req.user.save()
     res.redirect('/home')
