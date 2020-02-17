@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+
+</head>
+
+<body>
+
+    <nav>
+        <ul class="nav-links">
+            <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
+            <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="main-container">
+        <div class="header">
+            <h1 class="header-text"><%=list.name%></h1>
+        </div>
+
+        <div class="home-card-container">
+            <% list.albums.forEach(function (album){ %>
+            <div class="home-card">
+                <img src="<%=album.art%>">
+                <h3><%=album.album%></h3>
+                <p><%=album.artist%></p>
+                <div class="card-album-details">
+                    <a href="/<%=list._id%>/remove/<%=album._id%>"
+                        role="button" class="red-button-sm">Remove</a>
+                </div>
+            </div>
+            <% }) %>
+
+        </div>
+
+
+
+
+        <%- include('partials/footer') %>

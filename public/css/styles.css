@@ -197,7 +197,7 @@ header {
 
 .home-card {
   width: 200px;
-  height: 320px;
+  /* height: 320px; */
   -webkit-box-shadow: 5px 5px 13px 3px rgba(0, 0, 0, 0.288); 
 box-shadow: 5px 5px 13px 3px rgba(0, 0, 0, 0.288);
 margin-bottom: 1rem;

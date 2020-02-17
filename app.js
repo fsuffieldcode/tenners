@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
+app.use('/public', express.static(__dirname + '/public'));
+
 
 app.use(session({
     secret: process.env.SECRET,
@@ -120,14 +122,26 @@ app.get("/register", function (req, res) {
 app.get("/home", function (req, res) {
     if (req.isAuthenticated()) {
         res.render('home', { userId: req.user._id, lists: req.user.lists })
-        console.log(req.user.lists)
+        // console.log(req.user.lists)
     } else {
         res.redirect("/login")
     }
 })
 
-app.get("/:listId/add/", function (req, res) {
-    res.render('search', {listId: req.params.listId})
+app.get("/:listId/add", function (req, res) {
+    res.render('search', { listId: req.params.listId })
+})
+
+app.get("/:listId/delete", async function (req, res) {
+    req.user.lists.id(req.params.listId).remove()
+    req.user.save()
+    await res.redirect('/home')
+})
+
+app.get("/:listId/view", function (req, res) {
+    const thisList = req.user.lists.id(req.params.listId)
+    res.render('list', { list: thisList })
+    // console.log(req.params.listName)
 })
 
 app.get("/logout", function (req, res) {
@@ -156,7 +170,7 @@ app.get('/:listId/albums/:artistId', (req, res, next) => {
 
 
 app.get('/:listId/add/:albumId', (req, res) => {
-    
+
     spotifyApi.getAlbum(req.params.albumId)
         .then(function (data) {
             const currentList = req.user.lists.id(req.params.listId);
@@ -167,25 +181,24 @@ app.get('/:listId/add/:albumId', (req, res) => {
                 art: data.body.images[0].url
             });
             req.user.save();
+            res.redirect('/home');
         });
-
-    res.redirect('/home');
 
 }, function (err) {
     console.error(err);
 });
 
-app.get('/remove/:albumId', (req, res) => {
-    req.user.faveAlbums.pull(req.params.albumId)
+app.get('/:listId/remove/:albumId', (req, res) => {
+    const currentList = req.user.lists.id(req.params.listId)
+    currentList.albums.pull(req.params.albumId)
     req.user.save()
     res.redirect('/home')
 })
 
 
-
 // POST ROUTES
 
-app.post("/newlist", function(req, res) {
+app.post("/newlist", function (req, res) {
     const list = {
         name: req.body.listName
     }
@@ -226,7 +239,7 @@ app.post("/login", function (req, res) {
 })
 
 app.post("/:listId/artist-search", function (req, res) {
-    console.log(req.body.userId)
+    // console.log(req.body.userId)
     spotifyApi
         .searchArtists(req.body.artist)
         .then(data => {

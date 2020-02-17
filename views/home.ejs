@@ -14,22 +14,31 @@
     <h1>Your Lists</h1>
   </header>
 
-<ul>
-<% lists.forEach(function (list) { %>
-  <li><%=list.name%><a href="/<%=list._id%>/add"> Add to List</a></li>
-<% }) %>
-</ul>
+  <div class="home-card-container">
+    <% lists.forEach(function (list) { %>
+    <div class="home-card">
+      <span><%=list.name%></span>
+      <% if(list.albums[0]) { %>
+      <img src="<%=list.albums[0].art%>">
+      <a href="/<%=list._id%>/view" class="green-button">View</a>
+      <% } else { %> 
+        <img src="./public/images/unknown.jpg">
+      <% } %>
+      <a href="/<%=list._id%>/add" class="green-button">Add To</a>
+      <a href="/<%=list._id%>/delete" class="red-button-sm">Delete</a>
+    </div>
+    <% }) %>
+  </div>
 
-
-    <form method="POST" action="/newlist">
-      <label for="listName">New List: </label>
-      <input type="text" id="listName" name="listName">
-      <button type="submit">Add</button>
-    </form>
+  <form method="POST" action="/newlist">
+    <label for="listName">New List: </label>
+    <input type="text" id="listName" name="listName">
+    <button type="submit">Add</button>
+  </form>
   </header>
 
 
 
 
 
-    <%- include('partials/footer') %>
+  <%- include('partials/footer') %>
