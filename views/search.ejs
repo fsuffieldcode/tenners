@@ -1,31 +1,24 @@
 <%- include('partials/header') %>
 
-</head>
-
-<body>
-
-    <nav>
-        <ul class="nav-links">
-          <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
-          <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
-        </ul>
-    </nav>
-    <div class="main-container">
-        <div class="header">
-            <h1 class="header-text">Search
-            </h1>
+<div class="ui segment">
+    <div class="ui middle aligned four column centered grid centered-container">
+        <div class="row">
+            <header>
+                <h1 class="header">Search by Artist</h1>
+            </header>
         </div>
-        <div class="hero-container">
-            <div class="hero">
+        <form class="ui form stacked-form" action="/<%=listId%>/artist-search" method="POST">
+            <div class="fields">
+                <div class="field">
+                    <input type="text" name="artist">
+                </div>
             </div>
-            <form class="search-form" action="/<%=listId%>/artist-search" method="POST">
-                <h2>
-                    Search by Artist
-                </h2>
-                <input type="text" name="artist" />
-                <button type="submit">Search</button>
-            </form>
-        </div>
+            <div class="row">
+                <button type="submit" class="ui button green margined-button">Search</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <%- include('partials/footer') %>
+
+<%- include('partials/footer') %>

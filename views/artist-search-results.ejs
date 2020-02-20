@@ -1,32 +1,28 @@
 <%- include('partials/header') %>
 
-</head>
-
-<body>
-
-  <nav>
-    <ul class="nav-links">
-      <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
-      <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
-    </ul>
-  </nav>
-
-  <header class="home-header">
+  <header class="ui header centered">
     <h1>Artist Search Results</h1>
   </header>
 
-  <div class="artist-card-container">
+
+  <div class="ui cards centered">
     <% searchResults.artists.items.forEach(function (artist) { %>
-    <div class="artist-card">
+    <div class="card">
       <a href="/<%=listId%>/albums/<%= artist.id %>">
-        <% if (artist.images[0]) { %>
-        <img src="<%= artist.images[0].url %>">
-        <% } else { %>
-        <img src="../public/images/unknown.jpg">
-        <% } %>
-          <% if (artist.name) { %>
-          <%= artist.name %>
+        <div class="image">
+          <% if (artist.images[0]) { %>
+          <img class="ui fluid image" src="<%= artist.images[0].url %>">
+          <% } else { %>
+          <img class="ui fluid image" src="../public/images/unknown.jpg">
           <% } %>
+        </div>
+        <div class="content">
+          <div class="ui header centered">
+            <% if (artist.name) { %>
+            <%= artist.name %>
+            <% } %>
+          </div>
+        </div>
       </a>
     </div>
     <% }) %>

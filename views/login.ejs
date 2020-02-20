@@ -1,34 +1,26 @@
 <%- include('partials/header') %>
 
-</head>
-
-<body>
-
-
-<div class="main-container">
-  <div class="header">
-    <h1 class="header-text">tenners
+<div class="ui middle aligned four column centered grid centered-container">
+  <header>
+    <h1>Login
     </h1>
-    <i class="fas fa-headphones"></i>
-  </div>
-
-  <div class="register-login-container">
-    <div class="hero">
+  </header>
+  <form class="ui form stacked-form" action="/login" method="POST">
+    <div class="fields">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" name="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" name="password">
+      </div>
     </div>
-    <form class="register-login-form" action="/login" method="POST">
-      <label for="email">Email</label>
-      <input type="email" name="username">
-      <label for="password">Password</label>
-      <input type="password" name="password">
-      <button type="submit" class="btn-green">Login</button>
-    </form>
-  </div>
-</div>
-
+    <button type="submit" class="ui button">Login</button>
+  </form>
 </div>
 </div>
 
-</div>
 </div>
 
 <%- include('partials/footer') %>

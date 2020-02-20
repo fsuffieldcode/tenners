@@ -1,35 +1,27 @@
 <%- include('partials/header') %>
 
-</head>
 
-<body>
-
-  <nav>
-    <ul class="nav-links">
-      <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
-      <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
-    </ul>
-</nav>
-<div class="main-container">
-    <div class="header">
-        <h1 class="header-text">Register
-        </h1>
-    </div>
-
-    <div class="register-login-container">
-      <div class="hero">
-      </div>
-      <form class="register-login-form" action="/register" method="POST">
+<div class="ui middle aligned four column centered grid centered-container">
+  <header>
+    <h1>Register
+    </h1>
+  </header>
+  <form class="ui form stacked-form" action="/register" method="POST">
+    <div class="fields">
+      <div class="field">
         <label for="email">Email</label>
         <input type="email" name="username">
+      </div>
+      <div class="field">
         <label for="password">Password</label>
         <input type="password" name="password">
-        <button type="submit" class="btn-green">Register</button>
-      </form>
+      </div>
     </div>
-  </div>
+    <button type="submit" class="ui button">Register</button>
+  </form>
+</div>
+</div>
 
-  </div>
-  </div>
+</div>
 
-  <%- include('partials/header') %>
+<%- include('partials/footer') %>

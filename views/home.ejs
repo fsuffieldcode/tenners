@@ -1,44 +1,56 @@
 <%- include('partials/header') %>
 
-</head>
-
-<body>
-  <nav>
-    <ul class="nav-links">
-      <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
-      <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
-    </ul>
-  </nav>
-
-  <header class="home-header">
-    <h1>Your Lists</h1>
-  </header>
-
-  <div class="home-card-container">
+<h1 class="ui center aligned header">
+  Your Lists
+</h1>
+<div class="ui segment">
+  <div class="ui cards centered">
+    <% if (lists.length === 0) { %>
+    <h2 class="header">no lists found :(</h2>
+    <% } %>
     <% lists.forEach(function (list) { %>
-    <div class="home-card">
-      <span><%=list.name%></span>
+    <div class="card">
       <% if(list.albums[0]) { %>
-      <img src="<%=list.albums[0].art%>">
-      <a href="/<%=list._id%>/view" class="green-button">View</a>
-      <% } else { %> 
+      <div class="image">
+        <img src="<%=list.albums[0].art%>">
+      </div>
+      <% } else { %>
+      <div class="image">
         <img src="./public/images/unknown.jpg">
+      </div>
       <% } %>
-      <a href="/<%=list._id%>/add" class="green-button">Add To</a>
-      <a href="/<%=list._id%>/delete" class="red-button-sm">Delete</a>
+      <div class="ui container center aligned">
+        <div class="content">
+          <h2 class="ui header"><%=list.name%></h2>
+          <a href="/<%=list._id%>/view" class="small ui black basic button" tabindex="0">View</a>
+          <a href="/<%=list._id%>/add" class="small ui green basic button" tabindex="0">Add To</a>
+          <a href="/<%=list._id%>/delete" class="small ui red basic button" tabindex="0">Delete</a>
+        </div>
+      </div>
     </div>
     <% }) %>
   </div>
+</div>
 
-  <form method="POST" action="/newlist">
-    <label for="listName">New List: </label>
-    <input type="text" id="listName" name="listName">
-    <button type="submit">Add</button>
+<div class="ui container center aligned">
+  <h3 class="ui header centered large-header">
+    Create a New List:
+  </h3>
+    <form class="ui form stacked-form" method="POST" action="/newlist">
+    <label for="listName" class="ui label">New List:
+      <input type="text" id="listName" name="listName" placeholder="List Name">
+      <button class="mini ui green button" type="submit">Add</button>
+    </label>
   </form>
-  </header>
+</div>
+
+
+
+
+</header>
 
 
 
 
 
-  <%- include('partials/footer') %>
+<%- include('partials/footer') %>

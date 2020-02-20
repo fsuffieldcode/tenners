@@ -1,39 +1,32 @@
 <%- include('partials/header') %>
 
-</head>
+<div class="ui-segment">
+    <h1 class="ui header centered"><%=list.name%></h1>
 
-<body>
-
-    <nav>
-        <ul class="nav-links">
-            <a href="/home" class="logo">tenners <i class="fas fa-headphones"></i></a>
-            <li class="nav-item"><a href="/logout" role="button">Log Out</a></li>
-        </ul>
-    </nav>
-
-
-    <div class="main-container">
-        <div class="header">
-            <h1 class="header-text"><%=list.name%></h1>
-        </div>
-
-        <div class="home-card-container">
-            <% list.albums.forEach(function (album){ %>
-            <div class="home-card">
+    <div class="ui cards centered">
+        <% list.albums.forEach(function (album){ %>
+        <div class="card">
+            <div class="image">
                 <img src="<%=album.art%>">
-                <h3><%=album.album%></h3>
-                <p><%=album.artist%></p>
-                <div class="card-album-details">
-                    <a href="/<%=list._id%>/remove/<%=album._id%>"
-                        role="button" class="red-button-sm">Remove</a>
-                </div>
             </div>
-            <% }) %>
-
+            <div class="content">
+                <h2><%=album.album%></h2>
+                <p><%=album.artist%></p>
+                <a href="/<%=list._id%>/remove/<%=album._id%>" role="button" class="mini negative ui button"
+                    tabindex="0">Remove</a>
+            </div>
         </div>
-        <a href="/<%=list._id%>/add" class="green-button">Add Album</a>
+        <% }) %>
+    </div>
+    <div class="ui center aligned basic segment">
+        <a href="/<%=list._id%>/add" class="mini ui green button">Add Album</a>
+    </div>
+</div>
 
 
 
 
-        <%- include('partials/footer') %>
+
+
+
+<%- include('partials/footer') %>
