@@ -41,7 +41,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Local Mongo
-// mongoose.connect("mongodb://localhost:27017/tennersDB")
+// mongoose.connect('mongodb://localhost:27017/tennersDB');
 
 // Cloud Mongo
 mongoose.connect(connectionString);
