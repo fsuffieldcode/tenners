@@ -41,17 +41,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Local Mongo
-
-// mongoose.connect("mongodb://localhost:27017/tennersDB", { useNewUrlParser: true, useUnifiedTopology: true })
-// mongoose.set('useCreateIndex', true);
+// mongoose.connect("mongodb://localhost:27017/tennersDB")
 
 // Cloud Mongo
-
-mongoose.connect(connectionString, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
-mongoose.set('useCreateIndex', true);
+mongoose.connect(connectionString);
 
 const userSchema = new mongoose.Schema({
 	email: String,
