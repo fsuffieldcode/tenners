@@ -1,32 +1,31 @@
 <%- include('partials/header') %>
 
 <div class="ui-segment">
-    <h1 class="ui header centered"><%=list.name%></h1>
+	<h1 class="ui header centered"><%=list.name%></h1>
 
-    <div class="ui cards centered">
-        <% list.albums.forEach(function (album){ %>
-        <div class="card">
-            <div class="image">
-                <img src="<%=album.art%>">
-            </div>
-            <div class="content">
-                <h2><%=album.album%></h2>
-                <p><%=album.artist%></p>
-                <a href="/<%=list._id%>/remove/<%=album._id%>" role="button" class="mini negative ui button"
-                    tabindex="0">Remove</a>
-            </div>
-        </div>
-        <% }) %>
-    </div>
-    <div class="ui center aligned basic segment">
-        <a href="/<%=list._id%>/add" class="mini ui green button">Add Album</a>
-    </div>
+	<div class="ui cards centered">
+		<% list.albums.forEach(function (album){ %>
+		<div class="card">
+			<div class="image">
+				<img src="<%=album.art%>" />
+			</div>
+			<div class="content">
+				<h2><%=album.album%></h2>
+				<p><%=album.artist%></p>
+				<a
+					href="/<%=list._id%>/remove/<%=album._id%>"
+					role="button"
+					class="mini negative ui button"
+					tabindex="0"
+					>Remove</a
+				>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+	<div class="ui center aligned basic segment">
+		<a href="/<%=list._id%>/add" class="mini ui green button">Add Album</a>
+	</div>
 </div>
-
-
-
-
-
-
 
 <%- include('partials/footer') %>
