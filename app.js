@@ -40,10 +40,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Local Mongo
-// mongoose.connect('mongodb://localhost:27017/tennersDB');
+// Local Mongo - Comment/uncomment to change
+// mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
 
-// Cloud Mongo
+// Cloud Mongo - Comment/uncomment to change
 mongoose.connect(connectionString);
 
 const userSchema = new mongoose.Schema({
@@ -135,7 +135,7 @@ app.get('/:listId/add', function (req, res) {
 });
 
 app.get('/:listId/delete', async function (req, res) {
-	req.user.lists.id(req.params.listId).remove();
+	req.user.lists.id(req.params.listId).deleteOne();
 	req.user.save();
 	await res.redirect('/home');
 });
@@ -146,9 +146,17 @@ app.get('/:listId/view', function (req, res) {
 	// console.log(req.params.listName)
 });
 
-app.get('/logout', function (req, res) {
-	req.logout();
-	res.redirect('/');
+// old replaced logout function without callback
+// app.get('/logout', function (req, res) {
+// 	req.logout();
+// 	res.redirect('/');
+// });
+
+app.get('/logout', (req, res) => {
+	req.logout(req.user, (err) => {
+		if (err) return next(err);
+		res.redirect('/');
+	});
 });
 
 app.get('/:listId/albums/:artistId', (req, res, next) => {
