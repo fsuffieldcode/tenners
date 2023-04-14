@@ -50,7 +50,7 @@ app.use(
 		secret: process.env.SECRET,
 		resave: false,
 		saveUninitialized: false,
-		store: new MongoStore({ mongooseConnection: mongoose.connection }),
+		store: MongoStore.create({ mongooseConnection: mongoose.connection }),
 	})
 );
 
