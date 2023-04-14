@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const SpotifyWebApi = require('spotify-web-api-node');
 
@@ -38,18 +38,24 @@ app.use('/public', express.static(__dirname + '/public'));
 // 	})
 // );
 
-app.use(
-	session({
-		secret: process.env.SECRET,
-		store: MongoStore.create(options),
-	})
-);
+// app.use(
+// 		session({
+// 			secret: process.env.SECRET,
+// 			store: MongoStore.create(options),
+// 		})
+// 	);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Local Mongo - Comment/uncomment to change
 mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
+
+app.use(
+	session({
+		store: MongoStore.create({ mongoUrl: 'mongodb://0.0.0.0:27017/tennersDB' }),
+	})
+);
 
 // Cloud Mongo - Comment/uncomment to change
 // mongoose.connect(connectionString);
