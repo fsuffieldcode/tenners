@@ -52,19 +52,10 @@ app.use(passport.session());
 // mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
 mongoose.connect(connectionString);
 
-// app.use(
-// 	session({
-// 		secret: process.env.SECRET,
-// 		resave: false,
-// 		saveUninitialized: false,
-// 		store: MongoStore.create(options),
-// 	})
-// );
-
 app.use(
 	session({
 		secret: process.env.SECRET,
-		store: MongoStore.create(options),
+		store: MongoStore.create({ mongoUrl: connectionString }),
 	})
 );
 
