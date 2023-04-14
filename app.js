@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const SpotifyWebApi = require('spotify-web-api-node');
 
@@ -29,11 +30,18 @@ app.use(
 
 app.use('/public', express.static(__dirname + '/public'));
 
+// app.use(
+// 	session({
+// 		secret: process.env.SECRET,
+// 		resave: false,
+// 		saveUninitialized: false,
+// 	})
+// );
+
 app.use(
 	session({
 		secret: process.env.SECRET,
-		resave: false,
-		saveUninitialized: false,
+		store: new MongoStore(options),
 	})
 );
 
@@ -41,10 +49,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Local Mongo - Comment/uncomment to change
-// mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
+mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
 
 // Cloud Mongo - Comment/uncomment to change
-mongoose.connect(connectionString);
+// mongoose.connect(connectionString);
 
 const userSchema = new mongoose.Schema({
 	email: String,
