@@ -48,9 +48,9 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use(
 	session({
 		secret: process.env.SECRET,
-		store: MongoStore.create({ mongoUrl: connectionString }),
 		resave: false,
 		saveUninitialized: false,
+		store: new MongoStore({ mongooseConnection: mongoose.connection }),
 	})
 );
 
