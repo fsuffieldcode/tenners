@@ -49,7 +49,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Local Mongo - Comment/uncomment to change
-mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
+// mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
+mongoose.connect(connectionString);
 
 app.use(
 	session({
