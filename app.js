@@ -41,7 +41,7 @@ app.use('/public', express.static(__dirname + '/public'));
 app.use(
 	session({
 		secret: process.env.SECRET,
-		store: new MongoStore(options),
+		store: MongoStore.create(options),
 	})
 );
 
