@@ -45,21 +45,22 @@ app.use('/public', express.static(__dirname + '/public'));
 // 		})
 // 	);
 
+app.use(
+	session({
+		secret: process.env.SECRET,
+		store: MongoStore.create({ mongoUrl: connectionString }),
+		resave: false,
+		saveUninitialized: false,
+	})
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Local Mongo - Comment/uncomment to change
 // mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
-mongoose.connect(connectionString);
 
-app.use(
-	session({
-		secret: process.env.SECRET,
-		store: MongoStore.create({ mongoUrl: connectionString }),
-		resave: true,
-		saveUninitialized: true,
-	})
-);
+mongoose.connect(connectionString);
 
 // Cloud Mongo - Comment/uncomment to change
 // mongoose.connect(connectionString);
