@@ -31,19 +31,20 @@ app.use(
 app.use('/public', express.static(__dirname + '/public'));
 
 // app.use(
-// 	session({
-// 		secret: process.env.SECRET,
-// 		resave: false,
-// 		saveUninitialized: false,
-// 	})
-// );
-
-// app.use(
 // 		session({
 // 			secret: process.env.SECRET,
 // 			store: MongoStore.create(options),
 // 		})
 // 	);
+
+app.use(
+	session({
+		secret: process.env.SECRET,
+		resave: false,
+		saveUninitialized: true,
+		store: MongoStore.create({ mongoUrl: connectionString }),
+	})
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -51,19 +52,8 @@ app.use(passport.session());
 // Local Mongo - Comment/uncomment to change
 // mongoose.connect('mongodb://0.0.0.0:27017/tennersDB');
 
-mongoose.connect(connectionString);
-
 // Cloud Mongo - Comment/uncomment to change
-// mongoose.connect(connectionString);
-
-app.use(
-	session({
-		secret: process.env.SECRET,
-		resave: false,
-		saveUninitialized: false,
-		store: MongoStore.create({ mongoUrl: connectionString }),
-	})
-);
+mongoose.connect(connectionString);
 
 const userSchema = new mongoose.Schema({
 	email: String,
