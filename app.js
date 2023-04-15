@@ -11,9 +11,6 @@ const SpotifyWebApi = require('spotify-web-api-node');
 
 const passportLocalMongoose = require('passport-local-mongoose');
 
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
-
 const port = process.env.PORT || 3000;
 
 const connectionString =
@@ -48,15 +45,6 @@ app.use('/public', express.static(__dirname + '/public'));
 // 		})
 // 	);
 
-app.use(
-	session({
-		secret: process.env.SECRET,
-		resave: false,
-		saveUninitialized: false,
-		store: MongoStore.create({ mongoUrl: connectionString }),
-	})
-);
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -67,6 +55,15 @@ mongoose.connect(connectionString);
 
 // Cloud Mongo - Comment/uncomment to change
 // mongoose.connect(connectionString);
+
+app.use(
+	session({
+		secret: process.env.SECRET,
+		resave: false,
+		saveUninitialized: false,
+		store: MongoStore.create({ mongoUrl: connectionString }),
+	})
+);
 
 const userSchema = new mongoose.Schema({
 	email: String,
