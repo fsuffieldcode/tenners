@@ -11,6 +11,9 @@ const SpotifyWebApi = require('spotify-web-api-node');
 
 const passportLocalMongoose = require('passport-local-mongoose');
 
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+
 const port = process.env.PORT || 3000;
 
 const connectionString =
