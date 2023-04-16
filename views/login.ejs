@@ -1,28 +1,33 @@
 <%- include('partials/header') %>
 
-<div class="ui middle aligned four column centered grid centered-container">
-  <header>
-    <h1>Login
-    </h1>
-  </header>
-  <form class="ui form stacked-form" action="/login" method="POST">
-    <div class="fields">
-      <div class="field">
-        <label for="email">Email</label>
-        <input type="email" name="username">
-      </div>
-      <div class="field">
-        <label for="password">Password</label>
-        <input type="password" name="password">
-      </div>
-    </div>
-    <button type="submit" class="ui button">Login</button>
-  </form>
-  <br />
-</div>
-</div>
+<div class="ui middle aligned three column centered grid centered-container">
+	<div class="ui inverted segment">
+		<div class="login-form-container">
+			<header>
+				<h1 class="medium-header terracotta">Login</h1>
+			</header>
+			<form class="ui inverted form stacked-form" action="/login" method="POST">
+				<div class="fields">
+					<div class="field">
+						<label for="email">Email</label>
+						<input type="email" name="username" />
+					</div>
+					<div class="field">
+						<label for="password">Password</label>
+						<input type="password" name="password" />
+					</div>
+				</div>
+				<button type="submit" class="ui button button-primary">Login</button>
+			</form>
+			<br />
+		</div>
+	</div>
+  </div>
 
-<div class="ui center aligned container">For testing purposes use email address <strong>abc@123.com</strong> and password <strong>123456</strong>.</div>
-
+	<div class="ui center aligned container">
+		For testing purposes use email address <strong>abc@123.com</strong> and
+		password <strong>123456</strong>.
+	</div>
+</div>
 
 <%- include('partials/footer') %>
